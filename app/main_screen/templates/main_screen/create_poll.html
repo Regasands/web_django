@@ -1,0 +1,16 @@
+{% extends 'header.html' %}
+{% load static%}
+{% block title %}
+<link rel="stylesheet" href="{%static 'css/create_poll.css'%}">
+{% endblock%}
+{% load crispy_forms_tags %}
+{% block content %}
+    <form action="" method="post">
+        <div class="w-50 m-auto mt-auto">
+            {% crispy form %}
+            <div>
+                <button type="submit" class="btn btn-secondary">Сохранить</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

@@ -7,6 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>POLL</title>
     <link rel="stylesheet" href="{%static 'css/head.css'%}">
+    {% block title%}
+    {% endblock %}
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -15,13 +17,23 @@
         <a href="/" class="nav-link link-light p-2 ms-3"><img src="{%static 'img/icon_home.svg'%}" alt=""></a>
         <div class="d-flex justify-content-between gap-4 fs-6 align-items-center p-2 ms-auto w-75">
             <a href="/" class="nav-link link-light">Пройти опрос</a>
-            <a href="/" class="nav-link link-light">Создать опрос</a>
-            <a href="/" class="nav-link link-light dropdown-toggle bg-dark me-4" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><img src="{%static 'img/profile.svg'%}">
-                <ul class="dropdown-menu dropdown-menu-end rounded-3 bg-dark p-1 me-4">
-                    <li class="dropdown-items custom-color me-1 ms-1">Будет вход, выход типо</li>
-    
+            <a href="{% url 'create_poll'%}" class="nav-link link-light">Создать опрос</a>
+            <img src="{%static 'img/profile.svg'%}" class="nav-link link-light dropdown-toggle bg-dark me-4" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                <ul class="dropdown-menu dropdown-menu-end rounded-3 bg-dark me-4">
+                    {% if user.is_authenticated %}
+                        <li class="dropdown-items"><a href="" class="nav-link link-light ps-5 ">{{ user.get_username }}</a></li>
+                        <form action="{% url 'logout'%}" method="post">
+                            {% csrf_token %}
+                            <li class="dropdown-items"><button class='nav-link link-light ps-5' type="submit">Выйти</button></li>
+                        </form>
+
+                    {% else %}
+                        <li class="dropdown-items"><a href="{%url 'login' %}">Войти</a></li>
+                    {% endif%}
+                    {% if user.is_staff %}
+                        <li class="dropdown-items"><a href="{% url 'admin:index' %}">Админка</a></li>
+                    {% endif %}
                 </ul>
-            </a>
         </div>
     </nav>
     <div class="m-4">
