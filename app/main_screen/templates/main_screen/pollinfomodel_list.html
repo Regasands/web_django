@@ -1,0 +1,35 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block title %}
+<title>{{ poll.poll_name }}</title>
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header text-center">
+            <h1 class="mb-0">{{ poll.poll_name }}</h1>
+            <h3 class="mt-2">Тема: {{ poll.topic.name_topic }}</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" class="p-4 bg-light rounded">
+                {% csrf_token %}
+                <div class="form-group">
+                    <p class="font-weight-bold text-center">Выберите вариант ответа:</p>
+                    {% for variant in poll.json_variants %}
+                    <div class="form-check text-center">
+                        <input class="form-check-input" type="radio" name="variant" id="variant{{ forloop.counter }}" value="{{ variant }}">
+                        <label class="form-check-label" for="variant{{ forloop.counter }}">
+                            {{ variant }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary">Проголосовать</button>
+                    <button type="button" class="btn btn-secondary ml-2">Следующий выбор</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

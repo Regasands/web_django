@@ -1,0 +1,29 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block title %}
+<link rel="stylesheet" href="{% static 'css/styles.css'%}">
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="header-section">
+        <h1 class="text-center mb-4 main-title">Темы</h1>
+    </div>
+    <div class="row mt-4">
+        {% if topicnamemodel_list %}
+            {% for topic in topicnamemodel_list %}
+            <div class="col-md-4 mb-3">
+                <a href="{% url 'list_poll' topic.id %}" class="list-group-item list-group-item-action card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ topic.name_topic }}</h5>
+                        <p class="card-text">{{ topic.descript }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center">Нет доступных тем.</p>   
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
