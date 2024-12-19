@@ -2,3 +2,11 @@
     color: #B0B0B0;
 
 }
+.asteriskField {
+    display: none;
+}
+/* .block { */
+    /* position: absolute;
+    left: 40vw;
+    top: 20vw;
+} */

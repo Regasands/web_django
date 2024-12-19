@@ -8,10 +8,13 @@ TYPES_CHOICES = [
 
 class ListNewsModel(models.Model):
     name = models.CharField(verbose_name='Заголовок', max_length=255)
+    date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создание новости')
+
 
     class Meta:
         verbose_name = 'Данные Новости'
         verbose_name_plural = 'Данные Новостей'
+
 
 
 class CustomUserModel(models.Model):
@@ -21,6 +24,7 @@ class CustomUserModel(models.Model):
     profile = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Профиль', related_name='custom_user')
 
     class Meta:
+        ordering = ['-date_register']
         verbose_name = 'Профиль'
         verbose_name_plural = 'Профили пользоватей'
 
@@ -28,7 +32,6 @@ class CustomUserModel(models.Model):
     def __str__(self):
         return f'{self.profile} {self.money}'
 
-    
     def get_or_created_profile(user):
         profile, createf = CustomUserModel.objects.get_or_create(profile=user)
         return profile
@@ -37,7 +40,7 @@ class CustomUserModel(models.Model):
 class TopicNameModel(models.Model):
     name_topic = models.CharField(verbose_name='Название темы', max_length=255)
     vote = models.IntegerField(verbose_name='Голоса за эту тему', default=0)
-    descript = models.TextField(verbose_name='Описание темы')
+    descript = models.TextField(verbose_name='Описание темы', blank=True)
 
 
     class Meta:
@@ -67,10 +70,14 @@ class PollInfoModel(models.Model):
     )
     vote = models.IntegerField(default=0, verbose_name='Кол-во голосов на данный момент')
     max_vote = models.IntegerField(verbose_name='Кол-во голосов до закрытия опроса')
+    status = models.BooleanField(verbose_name='Состояние', default=True, blank=True)
+    json_variants = models.JSONField(verbose_name='Варианты ответа',  blank=True)
+
 
     class Meta:
         verbose_name = 'Опрос'
         verbose_name_plural = 'Все возможные опросы'
+        ordering=['-status', 'max_vote']
 
 
     def get_absolute_url(self):

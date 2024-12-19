@@ -12,3 +12,4 @@ class PollCreateForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         print(cleaned_data)
+        print('fff')

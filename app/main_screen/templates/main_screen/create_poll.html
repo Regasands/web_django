@@ -10,7 +10,10 @@
             {% crispy form %}
             <div>
                 <button type="submit" class="btn btn-secondary">Сохранить</button>
+                <button onclick="addInputField()">Добавить поле ввода варианта</button>
             </div>
         </div>
     </form>
+    <input type="text">
+    <script src="{% static 'js/add_field.js'%}"></script>
 {% endblock %}
