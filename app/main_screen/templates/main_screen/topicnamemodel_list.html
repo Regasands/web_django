@@ -1,7 +1,7 @@
 {% extends 'header.html' %}
 {% load static %}
 {% block title %}
-<link rel="stylesheet" href="{% static 'css/styles.css'%}">
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
 {% endblock %}
 {% block content %}
 <div class="container mt-5">
@@ -21,9 +21,8 @@
             </div>
             {% endfor %}
         {% else %}
-            <p class="text-center">Нет доступных тем.</p>   
+            <p class="text-center">Нет доступных тем.</p>
         {% endif %}
     </div>
 </div>
 {% endblock %}
-<link rel="stylesheet" href="{% static 'css/styles.css' %}">

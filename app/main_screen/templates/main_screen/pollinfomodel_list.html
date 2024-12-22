@@ -16,18 +16,28 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <p class="font-weight-bold text-center">Выберите вариант ответа:</p>
-                    {% for variant in first_poll.json_variants %}
-                    <div class="form-check text-center">
-                        <input class="form-check-input" type="radio" name="variant" id="variant{{ forloop.counter }}" value="{{ variant }}">
-                        <label class="form-check-label" for="variant{{ forloop.counter }}">
-                            {{ variant }}
-                        </label>
-                    </div>
-                    {% endfor %}
+                    {% if first_poll.types == 'POLL' %}
+                        {% for key, variant in first_poll.json_variants.items %}
+                        <div class="form-check text-left">
+                            <input class="form-check-input" type="checkbox" name="variant" id="variant{{ forloop.counter }}" value="{{ key }}">
+                            <label class="form-check-label text-left" for="variant{{ forloop.counter }}">
+                                {{ key }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        {% for key, variant in first_poll.json_variants.items %}
+                        <div class="form-check text-left">
+                            <input class="form-check-input" type="radio" name="variant" id="variant{{ forloop.counter }}" value="{{ key }}" required>
+                            <label class="form-check-label text-left" for="variant{{ forloop.counter }}">
+                                {{ key }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 <div class="mt-auto text-center">
                     <button type="submit" class="btn btn-primary">Проголосовать</button>
-                    <button type="button" class="btn btn-secondary ml-2">Следующий выбор</button>
                 </div>
             </form>
         </div>

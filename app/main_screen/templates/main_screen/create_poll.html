@@ -5,11 +5,12 @@
 {% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
+<div class="container mt-5">
     <form action="{% url 'create_poll' %}" method="post" class="p-4 bg-light rounded shadow-sm">
         {% csrf_token %}
         <h2 class="text-center mb-4">Создать опрос</h2>
         <div class="w-75 m-auto" id="input-container">
-            {{ form|crispy}}
+            {{ form|crispy }}
             <div id="two-input-container" class="mb-3 input-group d-flex flex-column">
                 <p class="font-weight-bold">Твои варианты ответа</p>
                 <input type="text" name="additional_input" placeholder="Данные" class="form-control w-100 mt-2 rounded">
@@ -21,5 +22,6 @@
             <button type="button" id="add-input-btn" class="btn btn-outline-secondary">Добавить поле ввода варианта</button>
         </div>
     </form>
-    <script src="{% static 'js/add_field.js' %}"></script>
+</div>
+<script src="{% static 'js/add_field.js' %}"></script>
 {% endblock %}

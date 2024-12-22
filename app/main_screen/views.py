@@ -58,9 +58,9 @@ class CheckPollView(PermissionRequiredMixin, ListView):
     model = PollInfoModel
 
     def get_queryset(self):
-        index_poll = self.kwargs.get('id_theam')
-        obj = self.request.user.custom_user.poll_status
-        query = self.model.objects.filter(topic__pk=index_poll, status=True).exclude(pk__in=obj) if index_poll else []
+        index_theam = self.kwargs.get('id_theam')
+        query = self.model.objects.exclude(pk__in=self.request.user.custom_user.poll_status.all()).filter(topic=TopicNameModel.objects.get(pk=index_theam), status=True)
+        print(query)
         return query
     
     def get_context_data(self, **kwargs):
@@ -69,3 +69,10 @@ class CheckPollView(PermissionRequiredMixin, ListView):
         print(context['first_poll']) # Передача первого элемента в контекст
         return context
 
+    def post(self, request, *args, **kwargs):
+        variants = request.POST.get('variant')
+        first_poll = self.get_queryset().first()
+        users = request.user.custom_user
+        print(variants)
+        print(first_poll)
+        print(users) 

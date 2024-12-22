@@ -13,10 +13,14 @@ class ListNewsModel(models.Model):
     class Meta:
         verbose_name = 'Данные Новости'
         verbose_name_plural = 'Данные Новостей'
+        ordering = ['-date']
+
+    def __str__(self):
+        return self.name
 
 class CustomUserModel(models.Model):
     money = models.IntegerField(verbose_name='Монеты пользователя', default=0)
-    poll_status = models.JSONField(verbose_name='Массив ключей', blank=True, default=list)
+    poll_status = models.ManyToManyField('PollInfoModel', verbose_name='Пройденные опросы', blank=True, related_name='users_accept_poll')
     date_register = models.DateTimeField(auto_now_add=True, verbose_name='Дата регистрации')
     profile = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Профиль', related_name='custom_user')
 
