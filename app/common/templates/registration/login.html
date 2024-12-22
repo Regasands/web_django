@@ -4,20 +4,20 @@
 {% block content %}
     {% if user.is_authenticated %}
         <div class="alert alert-info text-center w-25 m-auto block">
-        Вы уже вошли в систему как {{ user.username }}
-        <form action="{% url 'logout'%}" method="post">
-            {% csrf_token %}
-            <li class="dropdown-items"><button class='btn btn-denger' type="submit">Выйти</button></li>
-        </form>
-    </div>
+            Вы уже вошли в систему как {{ user.username }}
+            <form action="{% url 'logout'%}" method="post">
+                {% csrf_token %}
+                <li class="dropdown-items"><button class='btn btn-danger' type="submit">Выйти</button></li>
+            </form>
+        </div>
     {% else %}
-        <div class="w-25 m-auto block py-auto">
+        <div class="w-25 m-auto block py-auto" style="margin-top: 50px;">
             <form action="{% url 'login' %}" method="post">
                 {% csrf_token %}
-                {{ form|crispy}}
+                {{ form|crispy }}
                 <div class="d-flex flex-row justify-content-between">
                     <input type="submit" value="Войти" class="btn btn-secondary">
-                    <a href="{%url 'register' %}" class="btn btn-secondary">Регистрация</a>
+                    <a href="{% url 'register' %}" class="btn btn-secondary">Регистрация</a>
                 </div>
             </form>
         </div>

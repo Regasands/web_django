@@ -7,6 +7,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/pollinfomodel_list.css' %}">
 <div class="container mt-5 custom-container">
     <div class="card shadow-sm custom-card">
+        {% if first_poll %}
         <div class="card-header text-center">
             <h3 class="mt-2">{{ first_poll.poll_name }}</h3>
             <h3 class="mt-2">Тема: {{ first_poll.topic.name_topic }}</h3>
@@ -41,6 +42,11 @@
                 </div>
             </form>
         </div>
+        {% else %}
+        <div class="card-body text-center"> 
+            <p>На данный момент у вас нет опросов. Выберите другую тему </p>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

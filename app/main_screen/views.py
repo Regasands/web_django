@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import redirect
 
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.forms import UserCreationForm
@@ -60,19 +60,34 @@ class CheckPollView(PermissionRequiredMixin, ListView):
     def get_queryset(self):
         index_theam = self.kwargs.get('id_theam')
         query = self.model.objects.exclude(pk__in=self.request.user.custom_user.poll_status.all()).filter(topic=TopicNameModel.objects.get(pk=index_theam), status=True)
-        print(query)
         return query
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['first_poll'] = self.get_queryset().first() 
-        print(context['first_poll']) # Передача первого элемента в контекст
+        print(context['first_poll'])
         return context
 
     def post(self, request, *args, **kwargs):
-        variants = request.POST.get('variant')
+        variants = request.POST.getlist('variant')
         first_poll = self.get_queryset().first()
         users = request.user.custom_user
-        print(variants)
-        print(first_poll)
-        print(users) 
+        if not first_poll:
+            return redirect(reverse('list_poll', kwargs={'id_theam': self.kwargs.get('id_theam')}))
+        
+        users.poll_status.add(first_poll)
+        # В дальнейшем переделаем логику 
+        users.money += 10000 / first_poll.max_vote
+        json_sp = first_poll.json_variants
+
+        for variant in variants:
+            json_sp[variant] += 1
+
+        if sum(json_sp.values()) >= first_poll.max_vote:
+            first_poll.status = False
+            
+        first_poll.json_variants = json_sp
+        first_poll.save()
+        users.save()
+        
+        return redirect(reverse('list_poll', kwargs={'id_theam': self.kwargs.get('id_theam')}))

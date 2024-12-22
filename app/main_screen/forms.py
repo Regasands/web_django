@@ -12,7 +12,6 @@ class PollCreateForm(forms.ModelForm):
         cleaned_data = super().clean()
         max_vote = cleaned_data.get('max_vote')
 
-        if max_vote is not None and max_vote > 1000:  # Исправлено: добавлено двоеточие в конце строки
-            print('r')
-            self.add_error('max_vote', 'Максимальноек значение не модет быть больше 1000')
+        if max_vote is not None and max_vote > 1000:
+            self.add_error('max_vote', 'Максимальное значение не может быть больше 1000')
         return cleaned_data
