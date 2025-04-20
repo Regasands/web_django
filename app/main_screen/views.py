@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import redirect
 
-from django.views.generic import ListView, CreateView
+from django.views.generic import DetailView, ListView, CreateView, TemplateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User, Group
@@ -14,6 +14,7 @@ from app.main_screen.models import ListNewsModel, PollInfoModel, CustomUserModel
 class HomeScreenView(PermissionRequiredMixin, ListView):
     model = ListNewsModel
     permission_required = 'main_screen.view_listnewsmodel'
+    context_object_name = 'news_list'  
 
 class CreateUsersView(CreateView):
     form_class = UserCreationForm
@@ -87,7 +88,32 @@ class CheckPollView(PermissionRequiredMixin, ListView):
             first_poll.status = False
             
         first_poll.json_variants = json_sp
+        first_poll.vote +=  1
         first_poll.save()
         users.save()
         
         return redirect(reverse('list_poll', kwargs={'id_theam': self.kwargs.get('id_theam')}))
+
+
+class CheckProfile(PermissionRequiredMixin, TemplateView):
+    template_name = 'main_screen/detail.html' 
+    model = CustomUserModel
+    permission_required = 'main_screen.view_pollinfomodel'
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user  # получаем текущего пользователя
+        profile = user.custom_user  # получаем профиль через related_name
+        
+        context['user_info'] = user
+        context['profile'] = profile  # добавляем профиль в контекст
+        print(profile)
+
+        return context
+
+
+class PollDetail(PermissionRequiredMixin, DetailView):
+    model = PollInfoModel
+    permission_required = 'main_screen.view_pollinfomodel'
+

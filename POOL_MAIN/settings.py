@@ -119,3 +119,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 # Default primary key field type
 
 # AUTH_USER_MODEL = 'main_screen.CustomUserModel'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

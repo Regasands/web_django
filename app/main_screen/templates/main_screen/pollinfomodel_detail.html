@@ -1,0 +1,28 @@
+{% extends "header.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card mb-3">
+        <div class="card-header">
+            <h2>{{ poll.poll_name }}</h2>
+        </div>
+        <div class="card-body">
+            <p><strong>Тип опроса:</strong> {{ pollinfomodel.types }}</p>
+            <p><strong>Тема:</strong> {{ pollinfomodel.topic }}</p>
+            <p><strong>Создатель:</strong> {{pollinfomodel.user_create }}</p>
+            <p><strong>Кол-во голосов:</strong> {{ pollinfomodel.vote }} / {{ pollinfomodel.max_vote }}</p>
+            <p><strong>Состояние:</strong> {% if pollinfomodel.status %}Активен{% else %}Закрыт{% endif %}</p>
+            <p><strong>Варианты ответа:</strong></p>
+            <ul>
+                {% for key, value in pollinfomodel.json_variants.items %}
+                <li>{{ key }}: {{ value }}</li>
+                {% endfor %}
+        <a href="javascript:history.back()" class="btn btn-secondary mb-4">Назад</a>
+
+
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

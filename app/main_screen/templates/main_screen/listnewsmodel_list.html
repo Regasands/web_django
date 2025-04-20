@@ -1,14 +1,38 @@
+
 {% extends 'header.html' %}
 {% load static %}
 {% block content %}
 <div class="container mt-5">
     <h1 class="text-center mb-4">Новости</h1>
-    <div class="me-auto ms-auto">
-        <ul class="list-group">
-            <li class="list-group-item">
-                ТУТ БУДЕТ НОВОСТЬ
-            </li>
-        </ul>
+
+    <div class="row justify-content-center">
+        {% for news in news_list %}
+            <div class="col-md-6 col-lg-4 mb-4 d-flex align-items-stretch">
+                <div class="card h-100 shadow-sm text-center">
+                    {% if news.image %}
+                        <img src="{{ news.image.url }}" class="card-img-top" alt="Изображение новости">
+                    {% else %}
+                        <img src="{% static 'img/default-news.jpg' %}" class="card-img-top" alt="Нет изображения">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ news.name }}</h5>
+
+                        {% if news.describe %}
+                            <p class="card-text">{{ news.describe|truncatechars:150 }}</p>
+                        {% endif %}
+
+                        <p class="card-text mt-auto">
+                            <small class="text-muted">Дата: {{ news.date|date:"d.m.Y H:i" }}</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p class="text-center">Пока новостей нет.</p>
+            </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
+

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.urls import reverse
 TYPES_CHOICES = [
     ('POLL', 'Опрос'),
     ('multi_poll', 'Голосование')
@@ -9,6 +9,8 @@ TYPES_CHOICES = [
 class ListNewsModel(models.Model):
     name = models.CharField(verbose_name='Заголовок', max_length=255)
     date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создание новости')
+    image = models.ImageField(upload_to='news_images/', verbose_name='Изображение', blank=True, null=True)
+    describe = models.TextField(verbose_name='Описание', blank=True)
 
     class Meta:
         verbose_name = 'Данные Новости'

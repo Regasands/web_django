@@ -24,7 +24,10 @@
                         <form action="{% url 'logout' %}" method="post">
                             {% csrf_token %}
                             <li class="dropdown-items"><button class='nav-link link-light ps-5' type="submit">Выйти</button></li>
-                        </form>
+
+                        </form>                           
+                        <li class="dropdown-items"><a href="{% url 'profile' %}" class="nav-link link-light ps-5 ">Profile</a></li>
+
                     {% else %}
                         <li class="dropdown-items"><a href="{% url 'login' %}">Войти</a></li>
                     {% endif %}

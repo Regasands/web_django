@@ -1,0 +1,44 @@
+
+
+{% extends "header.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container mt-4">
+        <!-- Кнопка "Назад" -->
+        <a href="javascript:history.back()" class="btn btn-secondary mb-4">Назад</a>
+
+        <!-- Карточка для деталей пользователя -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h1 class="h3">Детали пользователя: <span class="text-primary">{{ user_info.username }}</span></h1>
+            </div>
+            <div class="card-body">
+                <p><strong class="h5">Имя:</strong> <span class="h5">{{ user_info.first_name }}</span></p>
+                <p><strong class="h5">Монеты:</strong> <span class="h5">{{ profile.money }}</span></p>
+                <p><strong class="h5">Дата регистрации:</strong> <span class="h5">{{ profile.date_register }}</span></p>
+            </div>
+        </div>
+
+        <!-- Карточка для опросов пользователя -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="h4">Опросы пользователя</h2>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    {% for poll in profile.poll_status.all %}
+                        <li class="list-group-item">
+                            <h5><a href="{{ poll.get_absolute_url }}" class="text-decoration-none">{{ poll.poll_name }}</a></h5>
+                            <p><strong>Голоса</strong> {{ poll.vote }}</p>
+                            <p><strong>Максчимальное кол-во</strong> {{ poll.max_vote }}</p>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">У пользователя ещё нет опросов.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
