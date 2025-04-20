@@ -117,3 +117,6 @@ class PollDetail(PermissionRequiredMixin, DetailView):
     model = PollInfoModel
     permission_required = 'main_screen.view_pollinfomodel'
 
+
+
+

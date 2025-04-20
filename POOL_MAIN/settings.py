@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app.common',
     'app.main_screen',
+    'rest_framework',
     'crispy_forms',
     'crispy_bootstrap5'
 ]
